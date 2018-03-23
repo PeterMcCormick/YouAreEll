@@ -15,8 +15,8 @@ public class SimpleShell {
         ObjectMapper mapper = new ObjectMapper();
         try {
             Object json = mapper.readValue(output, Object.class);
-            String indented = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
-            System.out.println(indented);
+            String prettyPrintSets = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+            System.out.println(prettyPrintSets);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,6 +82,28 @@ public class SimpleShell {
                     continue;
                 }
                 // you need to add a bunch more.
+
+                if (list.contains("messages") && list.size() == 2) {
+                    String myGithub = list.get(1);
+                    String results = webber.MakeURLCall("/ids/" +  myGithub + "/messages",
+                            "GET", "");
+                    SimpleShell.prettyPrint(results);
+                    continue;
+                }
+
+                if (list.contains("send")) {
+                    String groupedMessage = "";
+                    if (list.get(list.size()-2).equals("to"));
+                    for (int i = 2; i < list.size()-2; i++) {
+                        groupedMessage += list.get(i) + " ";
+                    }
+                    String trimmedMessage = groupedMessage.trim();
+                    Message newMessage = new Message(list.get(1), list.get(list.size()-1), trimmedMessage);
+                    String newMessageInfo = objectMapper.writeValueAsString(newMessage);
+                    webber.MakeURLCall("/ids/" + list.get(1) + "/messages", "POST", newMessageInfo);
+                    SimpleShell.prettyPrint(newMessageInfo);
+                    continue;
+                }
 
                 if (list.contains("ids") && list.size() == 3) {
                     String name = list.get(1);

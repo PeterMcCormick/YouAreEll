@@ -1,7 +1,7 @@
 public class Message {
 
     private String sequence;
-    private String timestamp = "2018-03-21T01:00:00:0Z";
+    private String timestamp;
     private String fromid;
     private String toid;
     private String message;
@@ -15,10 +15,25 @@ public class Message {
 
     }
 
+    public Message() {
+
+    }
+
     public Message(String fromid, String toid, String message) {
         this.fromid = fromid;
         this.toid = toid;
         this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "sequence='" + sequence + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", fromid='" + fromid + '\'' +
+                ", toid='" + toid + '\'' +
+                ", message='" + message + '\'' +
+                '}';
     }
 
     public Message(String fromid, String message) {
